@@ -2,6 +2,7 @@ package com.example.gestionproductos.controller;
 import com.example.gestionproductos.models.Producto;
 import com.example.gestionproductos.servicio.ProductoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,11 @@ public class ProductoController {
     private ProductoServicio productoServicio;
 
     @RequestMapping("/")
-    public String verPagInicio(Model modelo) {
-        List<Producto> listaProductos = productoServicio.listarProductos();
+    public String verPagInicio(Model modelo, @Param("palabraClave") String palabraClave) {
+        List<Producto> listaProductos = productoServicio.listarProductos(palabraClave);
+        modelo.addAttribute("palabraClave", palabraClave);
         modelo.addAttribute("listaProductos", listaProductos);
+
         return "index";
     }
 
